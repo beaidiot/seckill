@@ -1,7 +1,7 @@
 #  Java高并发秒杀项目
     1.主要技术栈：Spring + SpringMVC+Mybatis+MySQL
     2.项目结构
- 
+
 ## 难点
     如何高效的解决竞争问题？
         事务+行级锁
