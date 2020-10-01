@@ -1,16 +1,27 @@
 # Java高并发秒杀项目
     1.主要技术栈：Spring + SpringMVC+Mybatis+MySQL
     2.项目结构
-    seckill
-    |--src
-    |--|--main
-    |--|--|--java
-    |--|--|--|--org.seckill
-    |--|--|--|--|--dao
-    |--|--|--|--|--dto
-    |--|--|--|--|--entity
-    |--|--|--|--|--exception
-    |--|--|--|--|--service
+    ├─src
+    │  ├─main
+    │  │  ├─java
+    │  │  │  └─com
+    │  │  │      └─seckill
+    │  │  │          ├─dao
+    │  │  │          ├─entity
+    │  │  │          └─service
+    │  │  ├─resources
+    │  │  │  ├─mapper
+    │  │  │  └─spring
+    │  │  ├─sql
+    │  │  └─webapp
+    │  │      └─WEB-INF
+    │  └─test
+    │      ├─java
+    │      │  └─com
+    │      │      └─seckill
+    │      │          └─dao
+    │      └─resources
+   
 
 # 难点
     如何高效的解决竞争问题？
