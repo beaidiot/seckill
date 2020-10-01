@@ -38,7 +38,7 @@
         2.2.通过Spring去管理Service
         2.3.通过声明式事务简化对事务的控制
             * @Transactional注解
-###3.Web设计编码
+### 3.Web设计编码
         3.1.RESTful接口设计
         3.2.前端交互
     
