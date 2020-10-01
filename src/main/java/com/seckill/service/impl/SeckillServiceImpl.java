@@ -34,9 +34,10 @@ public class SeckillServiceImpl implements SeckillService {
     //md5盐值字符串，用于混淆MD5
     private final String slat = "jaiwsueoi12i3o*&u^9123kjlkas56yh1y23g";
     //注入service依赖
-    @Autowired
+    @Autowired(required = false)
     private SeckillDao seckillDao;
-    @Autowired
+
+    @Autowired(required = false)
     private SuccessSeckillDao successSeckillDao;
 
     @Override
@@ -68,7 +69,7 @@ public class SeckillServiceImpl implements SeckillService {
         }
 
         //生成seckillID的md5
-        String md5 = getMD5(seckillId);//TODO
+        String md5 = getMD5(seckillId);
         //当前时间在秒杀时间段内，则后续返回秒杀地址
         return new Exposer(true, md5, seckillId);
     }
@@ -120,8 +121,7 @@ public class SeckillServiceImpl implements SeckillService {
     //获取md5
     private String getMD5(Long seckillId) {
         String base = seckillId + "/" + slat;
-        String md5 = DigestUtils.md5DigestAsHex(base.getBytes());
-        return md5;
+        return DigestUtils.md5DigestAsHex(base.getBytes());
     }
 
 }
