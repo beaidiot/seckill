@@ -3,9 +3,14 @@ import java.util.Date;
 
 
 public class SuccessSeckilled {
+
+    //秒杀商品id
     private Long seckillId;
+    //秒杀用户电话
     private Long userPhone;
+    //秒杀状态：-1表示无效，0表示成功，1表示已付款
     private short state;
+    //秒杀创建时间
     private Date createTime;
 
     //多对一实体

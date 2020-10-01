@@ -8,6 +8,7 @@
         properties的属性：${url}
     -->
     <context:property-placeholder location="classpath:jdbc.properties"></context:property-placeholder>
+
     <!--2.配置数据库的连接池-->
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
         <!--配置连接池属性-->
