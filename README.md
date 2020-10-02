@@ -39,6 +39,25 @@
         2.3.通过声明式事务简化对事务的控制
             * @Transactional注解
 ### 3.Web设计编码
-        3.1.RESTful接口设计
-        3.2.前端交互
+        3.1.前端交互设计
+        3.2.RESTful接口设计
+            * Restful规范
+                * GET——>查询操作
+                * POST——>添加/修改操作
+                * PUT——>修改操作
+                * DELETE——>删除操作
+            * URL设计
+                */模块/资源/{标示}/集合1/...
+                    eg：/user/{uid}/friends ——> 好友列表
+                *秒杀API的URL设计
+                    #1.GET /seckill/list -->秒杀列表
+                    #2.GET /seckill/{id}/detail -->详情页
+                    #3.GET /seckill/time/now -->系统时间
+                    #4.POST /seckill/{id}/exposer -->暴露秒杀页面
+                    #5.POST /seckill/{id}/{md5}/execution -->执行秒杀操作
+        3.3.SpringMVC框架
+            * 
+        3.4.bootStrap+jQuery
+            *页面布局和样式控制
+            *数据交互实现
     
