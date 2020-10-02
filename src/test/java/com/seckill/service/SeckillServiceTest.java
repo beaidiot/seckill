@@ -3,10 +3,7 @@ package com.seckill.service;
 import com.seckill.dto.Exposer;
 import com.seckill.dto.SeckillExecution;
 import com.seckill.entity.Seckill;
-import com.seckill.exception.RepeatKillException;
-import com.seckill.exception.SeckillCloseException;
 import com.seckill.exception.SeckillException;
-import com.seckill.service.impl.SeckillServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -16,8 +13,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 /**
  * @Author LvZhang
@@ -53,7 +48,7 @@ public class SeckillServiceTest {
     @Test
     public void exportSeckillUrl() {
         long id = 1000L;
-        Exposer exposer = seckillService.exportSeckillUrl(id);
+        Exposer exposer = seckillService.exposeSeckillUrl(id);
         logger.info("exposer={}",exposer.toString());
         //exposer=Exposer{exported=true, md5='5e5441e56cf6a22a37ffaab541922085', seckillId=1000, now=null, start=null, end=null}
     }
@@ -72,7 +67,7 @@ public class SeckillServiceTest {
     public void seckillServiceTest(){
         long seckillId = 1000L;
         long userPhone = 13247738818L;
-        Exposer exposer = seckillService.exportSeckillUrl(seckillId);
+        Exposer exposer = seckillService.exposeSeckillUrl(seckillId);
         if(exposer.isExported()){
             String md5 = exposer.getMd5();
             try {

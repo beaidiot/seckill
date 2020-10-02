@@ -51,7 +51,7 @@ public class SeckillServiceImpl implements SeckillService {
     }
 
     @Override
-    public Exposer exportSeckillUrl(Long seckillId) {
+    public Exposer exposeSeckillUrl(Long seckillId) {
         Seckill seckill = this.getById(seckillId);
         if (seckill == null) {
             return new Exposer(false, seckillId);

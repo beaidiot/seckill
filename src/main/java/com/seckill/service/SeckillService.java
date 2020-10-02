@@ -38,7 +38,7 @@ public interface SeckillService {
      * 否则输出系统时间和秒杀时间
      * @param seckillId
      */
-    Exposer exportSeckillUrl(Long seckillId);
+    Exposer exposeSeckillUrl(Long seckillId);
 
     /**
      * 执行秒杀操作
