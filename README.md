@@ -38,7 +38,20 @@
         2.2.通过Spring去管理Service
         2.3.通过声明式事务简化对事务的控制
             * @Transactional注解
-### 3.Web设计编码
-        3.1.RESTful接口设计
-        3.2.前端交互
+## 3.Web设计编码
+        3.1.前端交互设计
+        3.2.RESTful接口设计
+            * RESTful规范
+                * GET ——>查询操作
+                * POST ——>添加/修改操作
+                * PUT ——>修改操作
+                * DELETE ——>删除操作
+            * 秒杀API的URL设计
+                * GET /seckill/list 秒杀列表
+                * GET /seckill/{id}/detail 秒杀详情页
+                * GET /seckill/time/now 系统时间
+                * POST /seckill/{id/exposer 暴露秒杀地址
+                * POST /seckill/{id}/{md5}/execution 执行秒杀操作
+        3.3.SpringMVC
+        3.4.Bootstrap+jQuery
     
