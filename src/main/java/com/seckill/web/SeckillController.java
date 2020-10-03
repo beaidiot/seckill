@@ -7,6 +7,7 @@ import com.seckill.entity.Seckill;
 import com.seckill.enums.SeckillStatEnum;
 import com.seckill.exception.RepeatKillException;
 import com.seckill.exception.SeckillCloseException;
+import com.seckill.exception.SeckillException;
 import com.seckill.service.SeckillService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -107,13 +108,13 @@ public class SeckillController {
      * @param md5
      * @return
      */
-    @RequestMapping(value = "/{seckillId}/{md5}/executin",
+    @RequestMapping(value = "/{seckillId}/{md5}/execution",
             method = RequestMethod.POST,
             produces = "application/json;charset=UTF-8")
     @ResponseBody
     public SeckillResult<SeckillExecution> execute(@PathVariable("seckillId") Long seckillId,
-                                                   @PathVariable("userPhone") Long userPhone,
-                                                   @CookieValue(value = "killPhone", required = false) String md5) {
+                                                   @PathVariable("md5") String md5,
+                                                   @CookieValue(value = "killPhone", required = false) Long userPhone) {
         //电话号码为空，返回“未注册”结果信息json
         if (userPhone == null) {
             return new SeckillResult<SeckillExecution>(false, "未注册");
@@ -124,18 +125,18 @@ public class SeckillController {
             SeckillExecution seckillExecution = seckillService.executeSeckill(seckillId, userPhone, md5);
             //执行成功，则返回成功信息json
             return new SeckillResult<SeckillExecution>(true, seckillExecution);
-        } catch (RepeatKillException e) {
+        } catch (RepeatKillException re) {
             //重复秒杀操作，返回相关操作异常json
             SeckillExecution seckillExecution = new SeckillExecution(seckillId, SeckillStatEnum.REPEAT_KILL);
-            return new SeckillResult<SeckillExecution>(false, seckillExecution);
-        } catch (SeckillCloseException e) {
+            return new SeckillResult<SeckillExecution>(true, seckillExecution);
+        } catch (SeckillCloseException sce) {
             //秒杀已结束，返回相关操作异常json
             SeckillExecution seckillExecution = new SeckillExecution(seckillId, SeckillStatEnum.END);
-            return new SeckillResult<SeckillExecution>(false, seckillExecution);
-        } catch (Exception e) {
+            return new SeckillResult<SeckillExecution>(true, seckillExecution);
+        } catch (SeckillException se) {
             //业务逻辑异常，返回“内部异常”json
             SeckillExecution seckillExecution = new SeckillExecution(seckillId, SeckillStatEnum.INNER_ERROR);
-            return new SeckillResult<SeckillExecution>(false, seckillExecution);
+            return new SeckillResult<SeckillExecution>(true, seckillExecution);
         }
     }
 
@@ -145,6 +146,7 @@ public class SeckillController {
      * @return
      */
     @RequestMapping(value = "/time/now", method = RequestMethod.GET)
+    @ResponseBody
     public SeckillResult<Long> time() {
         Date now = new Date();
         return new SeckillResult<Long>(true, now.getTime());

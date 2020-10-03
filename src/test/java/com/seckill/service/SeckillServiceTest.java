@@ -68,7 +68,7 @@ public class SeckillServiceTest {
         long seckillId = 1000L;
         long userPhone = 13247738818L;
         Exposer exposer = seckillService.exposeSeckillUrl(seckillId);
-        if(exposer.isExported()){
+        if(exposer.isExposed()){
             String md5 = exposer.getMd5();
             try {
                 SeckillExecution seckillExecution = seckillService.executeSeckill(seckillId, userPhone, md5);

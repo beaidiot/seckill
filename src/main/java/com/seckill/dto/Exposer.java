@@ -10,7 +10,7 @@ package com.seckill.dto;
  */
 public class Exposer {
     //标记是否开启秒杀
-    private boolean exported;
+    private boolean exposed;
     //加密
     private String md5;
 
@@ -25,31 +25,31 @@ public class Exposer {
     //秒杀结束时间
     private Long end;
 
-    public Exposer(boolean exported, String md5, Long seckillId) {
-        this.exported = exported;
+    public Exposer(boolean exposed, String md5, Long seckillId) {
+        this.exposed = exposed;
         this.md5 = md5;
         this.seckillId = seckillId;
     }
 
-    public Exposer(boolean exported, Long seckillId, Long now, Long start, Long end) {
-        this.exported = exported;
+    public Exposer(boolean exposed, Long seckillId, Long now, Long start, Long end) {
+        this.exposed = exposed;
         this.seckillId = seckillId;
         this.now = now;
         this.start = start;
         this.end = end;
     }
 
-    public Exposer(boolean exported, Long seckillId) {
-        this.exported = exported;
+    public Exposer(boolean exposed, Long seckillId) {
+        this.exposed = exposed;
         this.seckillId = seckillId;
     }
 
-    public boolean isExported() {
-        return exported;
+    public boolean isExposed() {
+        return exposed;
     }
 
-    public void setExported(boolean exported) {
-        this.exported = exported;
+    public void setExposed(boolean exposed) {
+        this.exposed = exposed;
     }
 
     public String getMd5() {
@@ -95,7 +95,7 @@ public class Exposer {
     @Override
     public String toString() {
         return "Exposer{" +
-                "exported=" + exported +
+                "exported=" + exposed +
                 ", md5='" + md5 + '\'' +
                 ", seckillId=" + seckillId +
                 ", now=" + now +

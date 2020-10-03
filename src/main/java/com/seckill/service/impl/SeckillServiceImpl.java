@@ -8,6 +8,7 @@ import com.seckill.entity.Seckill;
 import com.seckill.entity.SuccessSeckilled;
 import com.seckill.enums.SeckillStatEnum;
 import com.seckill.exception.RepeatKillException;
+import com.seckill.exception.SeckillCloseException;
 import com.seckill.exception.SeckillException;
 import com.seckill.service.SeckillService;
 import org.slf4j.Logger;
@@ -42,7 +43,7 @@ public class SeckillServiceImpl implements SeckillService {
 
     @Override
     public List<Seckill> getSeckillList() {
-        return seckillDao.queryAll(0, 4);
+        return seckillDao.queryAll(0, 5);
     }
 
     @Override
@@ -91,7 +92,7 @@ public class SeckillServiceImpl implements SeckillService {
         //减库存
         int updateCount = seckillDao.reduceINumber(seckillId, nowTime);
 
-        System.out.println("updatecount="+updateCount);
+        System.out.println("updatecount=" + updateCount);
 
         try {
             if (updateCount <= 0) {
@@ -110,6 +111,10 @@ public class SeckillServiceImpl implements SeckillService {
                     return new SeckillExecution(seckillId, SeckillStatEnum.SUCCESS, successSeckilled);
                 }
             }
+        } catch (RepeatKillException re) {
+            throw re;
+        } catch (SeckillCloseException sce) {
+            throw sce;
         } catch (Exception ex) {
             logger.error(ex.getMessage(), ex);
             //所有编译器异常。转化为运行期异常
