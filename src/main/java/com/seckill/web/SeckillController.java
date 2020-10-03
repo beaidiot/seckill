@@ -27,6 +27,7 @@ import java.util.List;
 @RequestMapping("/seckill")
 public class SeckillController {
 
+    //日志管理
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Resource
@@ -40,7 +41,9 @@ public class SeckillController {
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String list(Model model) {
+        //获取秒杀列表
         List<Seckill> seckillList = seckillService.getSeckillList();
+        //将获取列表结果传输到前端
         model.addAttribute("list", seckillList);
         return "list";
     }
@@ -54,14 +57,16 @@ public class SeckillController {
      */
     @RequestMapping(value = "/{seckillId}/detail", method = RequestMethod.GET)
     public String detail(@PathVariable("seckillId") Long seckillId, Model model) {
-        System.out.println("detail----");
+        //当秒杀id为空值，重定向到list.jsp页面
         if (seckillId == null) {
             return "redirect:/seckill/list";
         }
         Seckill seckill = seckillService.getById(seckillId);
+        //秒杀商品不存在时，请求转发到list.jsp页面
         if (seckill == null) {
             return "forward:/seckill/list";
         }
+        //秒杀商品存在时，跳转到详情页detail.jsp
         model.addAttribute("seckill", seckill);
         return "detail";
     }
@@ -81,10 +86,13 @@ public class SeckillController {
         SeckillResult<Exposer> result;
 
         try {
+            //当前时间段在秒杀时间段内
             Exposer exposer = seckillService.exposeSeckillUrl(seckillId);
+            //给出秒杀地址
             result = new SeckillResult<>(true, exposer);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
+            //不在秒杀时间段内
             result = new SeckillResult<>(false, e.getMessage());
         }
         return result;
@@ -106,20 +114,26 @@ public class SeckillController {
     public SeckillResult<SeckillExecution> execute(@PathVariable("seckillId") Long seckillId,
                                                    @PathVariable("userPhone") Long userPhone,
                                                    @CookieValue(value = "killPhone", required = false) String md5) {
+        //电话号码为空，返回“未注册”结果信息json
         if (userPhone == null) {
             return new SeckillResult<SeckillExecution>(false, "未注册");
         }
 
         try {
+            //执行秒杀操作
             SeckillExecution seckillExecution = seckillService.executeSeckill(seckillId, userPhone, md5);
+            //执行成功，则返回成功信息json
             return new SeckillResult<SeckillExecution>(true, seckillExecution);
         } catch (RepeatKillException e) {
+            //重复秒杀操作，返回相关操作异常json
             SeckillExecution seckillExecution = new SeckillExecution(seckillId, SeckillStatEnum.REPEAT_KILL);
             return new SeckillResult<SeckillExecution>(false, seckillExecution);
         } catch (SeckillCloseException e) {
+            //秒杀已结束，返回相关操作异常json
             SeckillExecution seckillExecution = new SeckillExecution(seckillId, SeckillStatEnum.END);
             return new SeckillResult<SeckillExecution>(false, seckillExecution);
         } catch (Exception e) {
+            //业务逻辑异常，返回“内部异常”json
             SeckillExecution seckillExecution = new SeckillExecution(seckillId, SeckillStatEnum.INNER_ERROR);
             return new SeckillResult<SeckillExecution>(false, seckillExecution);
         }
