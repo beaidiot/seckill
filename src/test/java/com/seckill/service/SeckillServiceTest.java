@@ -65,13 +65,13 @@ public class SeckillServiceTest {
 
     @Test
     public void seckillServiceTest(){
-        long seckillId = 1000L;
+        long seckillId = 1011L;
         long userPhone = 13247738818L;
         Exposer exposer = seckillService.exposeSeckillUrl(seckillId);
         if(exposer.isExposed()){
             String md5 = exposer.getMd5();
             try {
-                SeckillExecution seckillExecution = seckillService.executeSeckill(seckillId, userPhone, md5);
+                SeckillExecution seckillExecution = seckillService.executeSeckillProcedure(seckillId, userPhone, md5);
                 logger.info("execute={}",seckillExecution);
             }catch (SeckillException re){
                 logger.error(re.getMessage());
@@ -80,4 +80,8 @@ public class SeckillServiceTest {
             logger.info("exposer={}",exposer);
         }
     }
+
+
+
+
 }
