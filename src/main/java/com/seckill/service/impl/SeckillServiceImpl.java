@@ -2,6 +2,7 @@ package com.seckill.service.impl;
 
 import com.seckill.dao.SeckillDao;
 import com.seckill.dao.SuccessSeckillDao;
+import com.seckill.dao.cache.RedisDao;
 import com.seckill.dto.Exposer;
 import com.seckill.dto.SeckillExecution;
 import com.seckill.entity.Seckill;
@@ -41,6 +42,9 @@ public class SeckillServiceImpl implements SeckillService {
     @Autowired(required = false)
     private SuccessSeckillDao successSeckillDao;
 
+    @Autowired(required = false)
+    private RedisDao redisDao;
+
     @Override
     public List<Seckill> getSeckillList() {
         return seckillDao.queryAll(0, 5);
@@ -53,10 +57,20 @@ public class SeckillServiceImpl implements SeckillService {
 
     @Override
     public Exposer exposeSeckillUrl(Long seckillId) {
-        Seckill seckill = this.getById(seckillId);
+        //优化点：缓存优化，在超时缓存的基础上维护一致性
+        //1.访问Redis
+        Seckill seckill = redisDao.getSeckill(seckillId);
         if (seckill == null) {
-            return new Exposer(false, seckillId);
+            //2.访问数据库
+            seckill = seckillDao.queryById(seckillId);
+            if(seckill==null){
+                return new Exposer(false, seckillId);
+            }else {
+                //3.放入redis
+                redisDao.putSeckill(seckill);
+            }
         }
+
         //获取seckillId商品的秒杀开始时间
         Date startTime = seckill.getStartTime();
         //获取seckillId商品的秒杀结束时间
