@@ -189,9 +189,8 @@ public class SeckillServiceImpl implements SeckillService {
         return DigestUtils.md5DigestAsHex(base.getBytes());
     }
 
-
     private String hello(){
-        return "hello feature-a";
+        return "hello,feature-b";
     }
 
 }
